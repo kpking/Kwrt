@@ -1,4 +1,5 @@
-name: Build
+name: Build OpenWrt
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,7 +13,6 @@ on:
           - xiaomi_mi-router-4a-gigabit
           - xiaomi_mi-router-ac2100
           - netgear_r6220
-          - generic_test_device
 
 jobs:
   build:
@@ -64,7 +64,7 @@ jobs:
             echo "CONFIG_TARGET_DEVICE_ramips_mt7621_DEVICE_netgear_r6220=y" >> .config
             ;;
           *)
-            echo "未知设备，退出"
+            echo "未知设备：$DEVICE"
             exit 1
             ;;
         esac
@@ -101,7 +101,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
-        make -j$(nproc) V=s
+        make -j$(nproc)
 
     - name: Upload firmware as Artifacts
       uses: actions/upload-artifact@v4
