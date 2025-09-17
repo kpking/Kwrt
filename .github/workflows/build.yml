@@ -96,13 +96,18 @@ jobs:
         CONFIG_VERSION_MANUFACTURER="Kwrt"
         CONFIG_VERSION_FILENAMES=n
         EOF
-
-    - name: Build OpenWrt
+        
+    - name: Generate config
       run: |
         cd openwrt
-        make defconfig
-        make -j$(nproc) V=s
+        make defconfig        
+        sed -i 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/' .config    
+        echo "CONFIG_PACKAGE_dnsmasq-full=y" >> .config
 
+    - name: Build OpenWrt
+      run: |       
+        make -j$(nproc) V=s
+        
     - name: Upload firmware as Artifacts
       uses: actions/upload-artifact@v4
       with:
