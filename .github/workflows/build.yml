@@ -103,9 +103,6 @@ jobs:
         make defconfig        
         sed -i 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/' .config    
         echo "CONFIG_PACKAGE_dnsmasq-full=y" >> .config
-
-    - name: Build OpenWrt
-      run: |       
         make -j$(nproc) V=s
         
     - name: Upload firmware as Artifacts
