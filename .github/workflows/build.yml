@@ -101,7 +101,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
-        make -j$(nproc)
+        make -j$(nproc) V=s
 
     - name: Upload firmware as Artifacts
       uses: actions/upload-artifact@v4
